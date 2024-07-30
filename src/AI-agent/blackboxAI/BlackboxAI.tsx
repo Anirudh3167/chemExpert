@@ -34,6 +34,8 @@ export async function BlackboxAI(query_type: string, messages: messagesType[]) {
             Some common guidelines is,
             1. don't generate multiline text as it is not parsed by the JSON
             2. The output must be in the expected format.
+            3. If no exact match is found, return the closest match.
+            4. The response must be in the format specified.
 
             You must include that (#SEP#) to seperate the JSON response.
         `
@@ -52,16 +54,22 @@ export async function BlackboxAI(query_type: string, messages: messagesType[]) {
             The responses should short and precise along with humor.
             Make the response as short as possible unless user asks
             You should make the response more friendly to the kids by adding a bit of humor along with learning
+
+            You can consider the following example,
+            #SEP#
+            Hi, I am Hydrogen, the topper of the class. How can I help you?
+            #SEP#
+
+            Rules,
+            1. The generated response must be wrapped with (#SEP#) and should follow the format.
+            2. It's good to add some humor
+            3. Only the generated content must by in the wrapper. No additional information
         `
         chat_input = [{role:"system", content: info_prompt},...messages.slice(2)];
     }
     const res = await fetch("/api/chat", {
         method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          
-        },
+        headers: {"Content-Type": "application/json",},
         body: JSON.stringify({
           "messages": chat_input,
           "agentMode": {},
@@ -74,6 +82,6 @@ export async function BlackboxAI(query_type: string, messages: messagesType[]) {
     //   return res.slice('$@$v=v1.20-rv1$@$2$@$'.length)
     return  query_type === "query" ? res : 
     // res.slice('$@$v=v1.22-rv1$@$*'.length)
-    res.replace(/\$@\$(v=v\d+\.\d+-rv\d+)\$@\$/,'');
+    res.split("#SEP#")[1].replace(/\$@\$(v=v\d+\.\d+-rv\d+)\$@\$/,'');
     ;
 }

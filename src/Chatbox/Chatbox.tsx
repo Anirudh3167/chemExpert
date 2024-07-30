@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { BlackboxAI, messagesType } from "../AI-agent/blackboxAI/BlackboxAI";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Chatbox({name, formula}:{name:string | undefined, formula:string | undefined}) {
     const [show, setShow] = useState(false);
@@ -45,10 +47,10 @@ export default function Chatbox({name, formula}:{name:string | undefined, formul
           key={index}
         >
           <div
-            className={`w-4/5 flex flex-row gap-3 ${msg.role === "user" ? "bg-slate-800" : "bg-transparent"} rounded-lg p-2`}
+            className={`max-w-4/5  min-w-10 w-auto flex flex-row gap-3 ${msg.role === "user" ? "bg-white bg-opacity-25" : "bg-transparent"} rounded-lg p-2`}
             key={index}
           >
-            {msg.content}
+            <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
           </div>
         </div>
       ))}
