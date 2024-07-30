@@ -47,18 +47,21 @@ export default function Chatbox({name, formula}:{name:string | undefined, formul
           key={index}
         >
           <div
-            className={`max-w-4/5  min-w-10 w-auto flex flex-row gap-3 ${msg.role === "user" ? "bg-white bg-opacity-25" : "bg-transparent"} rounded-lg p-2`}
+            className={`max-w-4/5 flex flex-col  min-w-16 w-auto gap-3 ${msg.role === "user" ? "bg-white bg-opacity-25" : "bg-transparent"} rounded-lg p-2`}
             key={index}
           >
             <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
+            {msg.role === 'user' && <div className="text-xs font-bold text-white">{Date().toString().slice(16,21)}</div>}
           </div>
         </div>
       ))}
     </div>
     {/* Bottom Section */}
     <div className="w-full flex flex-row h-auto gap-3 items-center justify-end p-2">
-      <input className="w-full h-10 p-2 outline-none bg-transparent border-2 border-white rounded-lg text-white" 
-      placeholder="Type here..." value={inputVal} onChange={(e)=>setInputVal(e.target.value)} />
+      <textarea className="resize-none w-full min-h-10 flex flex-col items-start justify-start h-fit max-h-40 p-2 outline-none bg-transparent border-2 border-white rounded-lg text-white" 
+      placeholder="Type here..." value={inputVal} onChange={(e)=>setInputVal(e.target.value)}
+      onKeyDown={(e) => e.key === 'Enter' ? e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px` : e.key === 'Backspace' || e.key === 'Delete' ? e.currentTarget.style.height = `fit-content` : null}
+      />
       <button
         className="bg-white text-black p-1 px-5 rounded-md w-fit h-auto font-semibold"
         onClick={() => sendMsg()}

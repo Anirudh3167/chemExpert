@@ -3,7 +3,7 @@ import './App.css'
 import { useNavigate } from 'react-router-dom';
 
 function App() {
-  const searchRef = useRef(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const router = useNavigate();
 
   const searchAction = () => {
