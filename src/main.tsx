@@ -9,7 +9,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Routes>
       <Route index path="/" element={<App />} />
       <Route path="/search/:name" element={<SearchCompound />} />
-      <Route path='/search' element={<SearchCompound />} />
     </Routes>
   </BrowserRouter>
 )

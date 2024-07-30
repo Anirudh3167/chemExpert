@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/chat/",
+            "destination": "https://www.blackbox.ai/api/chat"
+        },
+        {
+            "source": "/search/:name",
+            "destination": "/search/:name"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
+}
